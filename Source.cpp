@@ -11,7 +11,7 @@ char symbolsidefield = 199;
 char symbolship = 178;
 char symbolhit = 88;
 char symbolmiss = 79;
-/*char fieldplayer[10][11] = 
+char fieldplayer[10][11] = 
 {
 	"          ",
 	"          ",
@@ -23,19 +23,19 @@ char symbolmiss = 79;
 	"          ",
 	"          ",
 	"          ",
-}; */
-char fieldplayer[10][11] =
+}; 
+char fieldplayer1[10][11] =
 {
+	"      1111",
+	"  1       ",
 	"1         ",
 	"          ",
 	"1         ",
-	"         1",
-	"1        1",
-	"         1",
-	"1        1",
+	"          ",
+	"1         ",
 	"     111  ",
-	"1        1",
-	"1 11 111 1",
+	"1 11     1",
+	"1    111 1",
 };
 char fieldenemy1[10][11] = 
 {
@@ -90,9 +90,7 @@ char fieldofassistance[10][11] =
 	"          ",
 	"          ",
 };
-	//1 корабль
-	//2 попадание
-	//3 промах
+
 	 
 void init(char field[][11]);
 void visual(char field[][11]);
@@ -102,84 +100,94 @@ void positionofenemyfield();
 int main() 
 {
 	srand(time(NULL));
-	int i = 0, j = 0;
-	printf("\nStart?\n");
-	_getch();
-	for (i = 0; i < 5; i++)
+	int i = 0, j = 0, n;
+	printf("1.Start\n2.Exit\nEnter the menu item:");
+	scanf("%d", &n);
+	while (n != 2)
 	{
-		printf(". ");
-		Sleep(500);
-	}
-	printf("\nGo!\n");
-	Sleep(500);
-	system("CLS");
-
-	positionofenemyfield();
-	init(fieldmainenemy);
-	system("CLS");
-	init(fieldplayer);
-
-	system("CLS");
-	//positionoffield(fieldplayer);
-	visual(fieldplayer);
-
-	printf("\nAre you ready for battle?\n");
-	_getch();
-	for (i = 0; i < 5; i++)
-	{
-		printf(". ");
-		Sleep(500);
-	}
-	printf("\nGo!\n");
-	Sleep(500);
-	system("CLS");
-
-	int x1, y1, end = 0, triggerfind = 0;
-	do
-	{	//ход игрока
-		int triggerplayer = 0;
-		while (triggerplayer == 0)
+		if (n == 1)
 		{
-			visual(fieldplayer);
-			printf("\n");
-			visual(fieldofassistance);
-			printf("X Y of the shot:");
-			scanf("%d %d", &x1, &y1);
-			if (fieldmainenemy[y1][x1] != 'X' &&  fieldmainenemy[y1][x1] != 'O' && x1<=9 && y1<=9 && x1>=0 && y1>=0) triggerplayer = 1;
-			else
+
+			printf("\nStart?\n");
+			_getch();
+			for (i = 0; i < 5; i++)
 			{
-				Sleep(1000);
-				system("cls");
-				printf("\n\tINVALID INPUT\n");
-				Sleep(1000);
-				system("cls");
+				printf(". ");
+				Sleep(500);
 			}
+			printf("\nGo!\n");
+			Sleep(500);
+			system("CLS");
 
-		}
+			positionofenemyfield();
+			init(fieldmainenemy);
+			system("CLS");
 
-		if (fieldmainenemy[y1][x1] == symbolship)
-		{
-			do
+			system("CLS");
+			int select, trigger = 0;
+			while (trigger == 0)
 			{
-				fieldmainenemy[y1][x1] = 'X';
-				fieldofassistance[y1][x1] = 'X';
+				printf("\n\t1.Use a already made field\n\t2.Make a field yourself\n\t");
+				scanf("%d", &select);
 				system("cls");
-				visual(fieldplayer);
-				printf("\n");
-				visual(fieldofassistance);
-				printf("\n\tYou hit!");
-				printf("\nPress any key to continue\n");
-				_getch();
-				system("cls");
-				int triggerplayer1 = 0;
-				while (triggerplayer1 == 0)
+				if (select >= 1 && select <= 2)
+				{
+					switch (select)
+					{
+
+					case 1:
+					{
+						for (i = 0; i < 10; i++)
+						{
+							for (j = 0; j < 11; j++)
+								fieldplayer[i][j] = fieldplayer1[i][j];
+						}
+						break;
+					}
+					case 2:
+					{
+						positionoffield(fieldplayer);
+						break;
+					}
+					}
+					trigger = 1;
+				}
+				else
+				{
+					Sleep(1000);
+					system("cls");
+					printf("\n\tINVALID INPUT\n");
+					Sleep(1000);
+					system("cls");
+				}
+			}
+			init(fieldplayer);
+			visual(fieldplayer);
+
+			printf("\nAre you ready for battle?\n");
+			_getch();
+			for (i = 0; i < 5; i++)
+			{
+				printf(". ");
+				Sleep(500);
+			}
+			printf("\nGo!\n");
+			Sleep(500);
+			system("CLS");
+
+			int x1, y1, end = 0, triggerfind = 0;
+			int win = 0;
+			do
+			{	//ход игрока
+				int triggerplayer = 0;
+				while (triggerplayer == 0)
 				{
 					visual(fieldplayer);
 					printf("\n");
 					visual(fieldofassistance);
 					printf("X Y of the shot:");
 					scanf("%d %d", &x1, &y1);
-					if (fieldmainenemy[y1][x1] != 'X' &&  fieldmainenemy[y1][x1] != 'O' && x1 <= 9 && y1 <= 9 && x1 >= 0 && y1 >= 0) triggerplayer1 = 1;
+					if (fieldmainenemy[y1][x1] != 'X' &&  fieldmainenemy[y1][x1] != 'O' && x1 <= 9 && y1 <= 9 && x1 >= 0 && y1 >= 0) triggerplayer = 1;
 					else
 					{
 						Sleep(1000);
@@ -190,124 +198,164 @@ int main()
 					}
 
 				}
+
+				if (fieldmainenemy[y1][x1] == symbolship)
+				{
+					do
+					{
+						fieldmainenemy[y1][x1] = 'X';
+						fieldofassistance[y1][x1] = 'X';
+						system("cls");
+						visual(fieldplayer);
+						printf("\n");
+						visual(fieldofassistance);
+						printf("\n\tYou hit!");
+						printf("\nPress any key to continue\n");
+						_getch();
+						system("cls");
+						int triggerplayer1 = 0;
+						while (triggerplayer1 == 0)
+						{
+							visual(fieldplayer);
+							printf("\n");
+							visual(fieldofassistance);
+							printf("X Y of the shot:");
+							scanf("%d %d", &x1, &y1);
+							if (fieldmainenemy[y1][x1] != 'X' &&  fieldmainenemy[y1][x1] != 'O' && x1 <= 9 && y1 <= 9 && x1 >= 0 && y1 >= 0) triggerplayer1 = 1;
+							else
+							{
+								Sleep(1000);
+								system("cls");
+								printf("\n\tINVALID INPUT\n");
+								Sleep(1000);
+								system("cls");
+							}
+
+						}
+						for (i = 0; i < 10; i++)
+						{
+							for (j = 0; j < 10; j++)
+								if (fieldmainenemy[i][j] == symbolship)
+								{
+									triggerfind = 1;
+									break;
+								}
+						}
+						if (triggerfind == 0) { win = 1; end = 1; break; }
+
+					} while (fieldmainenemy[y1][x1] == symbolship);
+					if (end == 1) break;
+				}
+				if (fieldmainenemy[y1][x1] == ' ')
+				{
+					fieldmainenemy[y1][x1] = 'O';
+					fieldofassistance[y1][x1] = 'O';
+					system("cls");
+					visual(fieldplayer);
+					printf("\n");
+					visual(fieldofassistance);
+					printf("\n\tYou missed");
+					printf("\nPress any key to continue\n");
+					_getch();
+				}
 				for (i = 0; i < 10; i++)
 				{
-					for (j = 0; j < 11; j++)
+					for (j = 0; j < 10; j++)
 						if (fieldmainenemy[i][j] == symbolship)
 						{
 							triggerfind = 1;
 							break;
 						}
 				}
-				if (triggerfind == 0) end = 1;
-				if (end == 1) break;
+				if (triggerfind == 0) { win = 1; end = 1; break; }
 
-			} while (fieldmainenemy[y1][x1] == symbolship);
 
-		}
-		if (fieldmainenemy[y1][x1] == ' ')
-		{
-			fieldmainenemy[y1][x1] = 'O';
-			fieldofassistance[y1][x1] = 'O';
-			system("cls");
-			visual(fieldplayer);
-			printf("\n");
-			visual(fieldofassistance);
-			printf("\n\tYou missed");
-			printf("\nPress any key to continue\n");
-			_getch();
-		}
-		for (i = 0; i < 10; i++)
-		{
-			for (j = 0; j < 11; j++)
-				if (fieldmainenemy[i][j] == symbolship)
+				system("cls");
+				int triggercomp = 0;
+				while (triggercomp == 0)
 				{
-					triggerfind = 1;
-					break;
+					x1 = rand()*(9) / RAND_MAX;
+					y1 = rand()*(9) / RAND_MAX;
+					if (fieldplayer[y1][x1] != 'X' && fieldplayer[y1][x1] != 'O') triggercomp = 1;
 				}
-		}
-		if (triggerfind == 0) end = 1;
-		if (end == 1) break;
-
-
-		//ход компьютера
-		system("cls");
-		int triggercomp = 0;
-		while (triggercomp == 0)
-		{
-			x1 = rand()*(9) / RAND_MAX;
-			y1 = rand()*(9) / RAND_MAX;
-			if (fieldplayer[y1][x1] != 'X' && fieldplayer[y1][x1] != 'O') triggercomp = 1;
-		}
-		if (fieldplayer[y1][x1] == symbolship)
-			{
-				do
+				if (fieldplayer[y1][x1] == symbolship)
 				{
-					fieldplayer[y1][x1] = 'X';
+					do
+					{
+						fieldplayer[y1][x1] = 'X';
+						visual(fieldplayer);
+						printf("\n");
+						visual(fieldofassistance);
+						printf("\n\tEnemy`s shot:%d %d\n\tEnemy had hit\n\tPress any key to continue\n", x1, y1);
+						_getch();
+						system("cls");
+						int triggerenemy1 = 0;
+						while (triggerenemy1 == 0)
+						{
+							x1 = rand()*(9) / RAND_MAX;
+							y1 = rand()*(9) / RAND_MAX;
+							if (fieldplayer[y1][x1] != 'X' &&  fieldplayer[y1][x1] != 'O') triggerenemy1 = 1;
+							else
+							{
+								Sleep(1000);
+								system("cls");
+								printf("\n\tINVALID INPUT\n");
+								Sleep(1000);
+								system("cls");
+							}
+
+						}
+
+						for (i = 0; i < 10; i++)
+						{
+							for (j = 0; j < 10; j++)
+								if (fieldplayer[i][j] == symbolship)
+								{
+									triggerfind = 1;
+									break;
+								}
+						}
+						if (triggerfind == 0)
+						{
+							end = 1;
+							break;
+						}
+					} while (fieldplayer[y1][x1] == symbolship);
+
+				}
+				if (fieldplayer[y1][x1] == ' ')
+				{
+					fieldplayer[y1][x1] = 'O';
 					visual(fieldplayer);
 					printf("\n");
 					visual(fieldofassistance);
-					printf("\n\tEnemy`s shot:%d %d\n\tEnemy had hit\n\tPress any key to continue\n", x1, y1);
+					printf("\n\tEnemy`s shot:%d %d\n\tEnemy had missed\n\tPress any key to continue\n", x1, y1);
 					_getch();
-					system("cls");
-					int triggerenemy1 = 0;
-					while (triggerenemy1 == 0)
-					{
-						x1 = rand()*(9) / RAND_MAX;
-						y1 = rand()*(9) / RAND_MAX;
-						if (fieldplayer[y1][x1] != 'X' &&  fieldplayer[y1][x1] != 'O') triggerenemy1 = 1;
-						else
-						{
-							Sleep(1000);
-							system("cls");
-							printf("\n\tINVALID INPUT\n");
-							Sleep(1000);
-							system("cls");
-						}
 
-					}
-					
-					for (i = 0; i < 10; i++)
-					{
-						for (j = 0; j < 11; j++)
-							if (fieldplayer[i][j] == symbolship)
-							{
-								triggerfind = 1;
-								break;
-							}
-					}
-					if (triggerfind == 0)
-					{
-						end = 1;
-						break;
-					}
-				} while (fieldplayer[y1][x1] == symbolship);
-
-			}
-		if (fieldplayer[y1][x1] == ' ')
-			{
-				fieldplayer[y1][x1] = 'O';
-				visual(fieldplayer);
-				printf("\n");
-				visual(fieldofassistance);
-				printf("\n\tEnemy`s shot:%d %d\n\tEnemy had missed\n\tPress any key to continue\n", x1, y1);
-				_getch();
-
-			}
-		for (i = 0; i < 10; i++)
-		{
-			for (j = 0; j < 11; j++)
-				if (fieldplayer[i][j] == symbolship)
-				{
-					triggerfind = 1;
-					break;
 				}
+				for (i = 0; i < 10; i++)
+				{
+					for (j = 0; j < 10; j++)
+						if (fieldplayer[i][j] == symbolship)
+						{
+							triggerfind = 1;
+							break;
+						}
+				}
+				if (triggerfind == 0) { end = 1; break; }
+				triggerfind = 0;
+				system("cls");
+			} while (end == 0);
+			system("cls");
+			if (win == 1) printf("\n\tWINNER WINNER CHICKEN DINER!!!");
+			else printf("\n\tYOU LOSE");
+			_getch();
 		}
-		if (triggerfind == 0) end = 1;
-		triggerfind = 0;
 		system("cls");
-	} while (end == 0);
-	_getch();
+		printf("1.Start\n2.Exit\nEnter the menu item:");
+		scanf("%d", &n);
+	}
+
 }
 void init(char field[][11]) 
 {
@@ -323,11 +371,6 @@ void init(char field[][11])
 			case '1':
 			{
 				field[i][j] = symbolship;
-				break;
-			}
-			case '2':
-			{
-				field[i][j] = symbolhit;
 				break;
 			}
 			default:
