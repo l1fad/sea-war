@@ -127,7 +127,7 @@ int main()
 			int select, trigger = 0;
 			while (trigger == 0)
 			{
-				printf("\n\t1.Use a already made field\n\t2.Make a field yourself\n\t");
+				printf("\n\t1.Use already made field\n\t2.Make a field yourself\n\t");
 				scanf("%d", &select);
 				system("cls");
 				if (select >= 1 && select <= 2)
@@ -175,8 +175,7 @@ int main()
 			Sleep(500);
 			system("CLS");
 
-			int x1, y1, end = 0, triggerfind = 0;
-			int win = 0;
+			int x1, y1, numbercells1 = 20,numbercells2=20, triggerfind = 0;
 			do
 			{	//ход игрока
 				int triggerplayer = 0;
@@ -210,11 +209,12 @@ int main()
 						printf("\n");
 						visual(fieldofassistance);
 						printf("\n\tYou hit!");
+						numbercells1--;
 						printf("\nPress any key to continue\n");
 						_getch();
 						system("cls");
 						int triggerplayer1 = 0;
-						while (triggerplayer1 == 0)
+						while (triggerplayer1 == 0 && numbercells1)
 						{
 							visual(fieldplayer);
 							printf("\n");
@@ -232,20 +232,11 @@ int main()
 							}
 
 						}
-						for (i = 0; i < 10; i++)
-						{
-							for (j = 0; j < 10; j++)
-								if (fieldmainenemy[i][j] == symbolship)
-								{
-									triggerfind = 1;
-									break;
-								}
-						}
-						if (triggerfind == 0) { win = 1; end = 1; break; }
 
-					} while (fieldmainenemy[y1][x1] == symbolship);
-					if (end == 1) break;
+					} while (fieldmainenemy[y1][x1] == symbolship && numbercells1);
 				}
+				if (numbercells1 <= 0) break;
+
 				if (fieldmainenemy[y1][x1] == ' ')
 				{
 					fieldmainenemy[y1][x1] = 'O';
@@ -258,18 +249,9 @@ int main()
 					printf("\nPress any key to continue\n");
 					_getch();
 				}
-				for (i = 0; i < 10; i++)
-				{
-					for (j = 0; j < 10; j++)
-						if (fieldmainenemy[i][j] == symbolship)
-						{
-							triggerfind = 1;
-							break;
-						}
-				}
-				if (triggerfind == 0) { win = 1; end = 1; break; }
+			
 
-
+				//ход компьютера
 				system("cls");
 				int triggercomp = 0;
 				while (triggercomp == 0)
@@ -287,10 +269,11 @@ int main()
 						printf("\n");
 						visual(fieldofassistance);
 						printf("\n\tEnemy`s shot:%d %d\n\tEnemy had hit\n\tPress any key to continue\n", x1, y1);
+						numbercells2--;
 						_getch();
 						system("cls");
 						int triggerenemy1 = 0;
-						while (triggerenemy1 == 0)
+						while (triggerenemy1 == 0 && numbercells1)
 						{
 							x1 = rand()*(9) / RAND_MAX;
 							y1 = rand()*(9) / RAND_MAX;
@@ -305,23 +288,9 @@ int main()
 							}
 
 						}
+					} while (fieldplayer[y1][x1] == symbolship && numbercells2);
 
-						for (i = 0; i < 10; i++)
-						{
-							for (j = 0; j < 10; j++)
-								if (fieldplayer[i][j] == symbolship)
-								{
-									triggerfind = 1;
-									break;
-								}
-						}
-						if (triggerfind == 0)
-						{
-							end = 1;
-							break;
-						}
-					} while (fieldplayer[y1][x1] == symbolship);
-
+					if (numbercells2 <= 0) break;
 				}
 				if (fieldplayer[y1][x1] == ' ')
 				{
@@ -333,21 +302,15 @@ int main()
 					_getch();
 
 				}
-				for (i = 0; i < 10; i++)
-				{
-					for (j = 0; j < 10; j++)
-						if (fieldplayer[i][j] == symbolship)
-						{
-							triggerfind = 1;
-							break;
-						}
-				}
-				if (triggerfind == 0) { end = 1; break; }
-				triggerfind = 0;
 				system("cls");
-			} while (end == 0);
+			} while (numbercells1 && numbercells2);
 			system("cls");
-			if (win == 1) printf("\n\tWINNER WINNER CHICKEN DINER!!!");
+			if (numbercells1 <= 0) {
+				visual(fieldplayer);
+				printf("\n");
+				visual(fieldofassistance);
+				printf("\n\tWINNER WINNER CHICKEN DINER!!!\n\tPress any key to continue");
+			}
 			else printf("\n\tYOU LOSE");
 			_getch();
 		}
