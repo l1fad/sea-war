@@ -10,7 +10,7 @@ char symbolupfield = 205;
 char symbolsidefield = 199;
 char symbolship = 178;
 char symbolhit = 88;
-char symbolmiss = 79;
+char symbolmiss = 111;
 char fieldplayer[10][11] = 
 {
 	"          ",
@@ -186,7 +186,7 @@ int main()
 					visual(fieldofassistance);
 					printf("X Y of the shot:");
 					scanf("%d %d", &x1, &y1);
-					if (fieldmainenemy[y1][x1] != 'X' &&  fieldmainenemy[y1][x1] != 'O' && x1 <= 9 && y1 <= 9 && x1 >= 0 && y1 >= 0) triggerplayer = 1;
+					if (fieldmainenemy[y1][x1] != 'X' &&  fieldmainenemy[y1][x1] != 'o' && x1 <= 9 && y1 <= 9 && x1 >= 0 && y1 >= 0) triggerplayer = 1;
 					else
 					{
 						Sleep(1000);
@@ -221,7 +221,7 @@ int main()
 							visual(fieldofassistance);
 							printf("X Y of the shot:");
 							scanf("%d %d", &x1, &y1);
-							if (fieldmainenemy[y1][x1] != 'X' &&  fieldmainenemy[y1][x1] != 'O' && x1 <= 9 && y1 <= 9 && x1 >= 0 && y1 >= 0) triggerplayer1 = 1;
+							if (fieldmainenemy[y1][x1] != 'X' &&  fieldmainenemy[y1][x1] != 'o' && x1 <= 9 && y1 <= 9 && x1 >= 0 && y1 >= 0) triggerplayer1 = 1;
 							else
 							{
 								Sleep(1000);
@@ -239,8 +239,8 @@ int main()
 
 				if (fieldmainenemy[y1][x1] == ' ')
 				{
-					fieldmainenemy[y1][x1] = 'O';
-					fieldofassistance[y1][x1] = 'O';
+					fieldmainenemy[y1][x1] = 'o';
+					fieldofassistance[y1][x1] = 'o';
 					system("cls");
 					visual(fieldplayer);
 					printf("\n");
@@ -258,7 +258,7 @@ int main()
 				{
 					x1 = rand()*(9) / RAND_MAX;
 					y1 = rand()*(9) / RAND_MAX;
-					if (fieldplayer[y1][x1] != 'X' && fieldplayer[y1][x1] != 'O') triggercomp = 1;
+					if (fieldplayer[y1][x1] != 'X' && fieldplayer[y1][x1] != 'o') triggercomp = 1;
 				}
 				if (fieldplayer[y1][x1] == symbolship)
 				{
@@ -277,7 +277,7 @@ int main()
 						{
 							x1 = rand()*(9) / RAND_MAX;
 							y1 = rand()*(9) / RAND_MAX;
-							if (fieldplayer[y1][x1] != 'X' &&  fieldplayer[y1][x1] != 'O') triggerenemy1 = 1;
+							if (fieldplayer[y1][x1] != 'X' &&  fieldplayer[y1][x1] != 'o') triggerenemy1 = 1;
 							else
 							{
 								Sleep(1000);
@@ -294,7 +294,7 @@ int main()
 				}
 				if (fieldplayer[y1][x1] == ' ')
 				{
-					fieldplayer[y1][x1] = 'O';
+					fieldplayer[y1][x1] = 'o';
 					visual(fieldplayer);
 					printf("\n");
 					visual(fieldofassistance);
